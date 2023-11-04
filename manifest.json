@@ -1,0 +1,11 @@
+{
+	"id": "rpg-clocks",
+	"name": "RPG clocks",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "This plugins allows you to create clocks for your rpg games like Blades in The Dark",
+	"author": "Obsidian",
+	"authorUrl": "https://obsidian.md",
+	"fundingUrl": "https://obsidian.md/pricing",
+	"isDesktopOnly": false
+}
