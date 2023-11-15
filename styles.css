@@ -1,21 +1,12 @@
 /*
-
 This CSS file will be included with your plugin, and
 available in the app when your plugin is enabled.
 
 If your plugin does not need CSS, delete this file.
-
 */
-@font-face {
-    font-family: 'Kirsty';
-    src:url('Kirsty.ttf.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
 
-body {
-    --color-orange: #f06900;
-    --color-blue: #0f96ff;
+.block-language-clock {
+    --color-orange: #ffa057;
     --color-dark: #020308;
     --color-mid: #101116;
     --color-light: #44454a;
@@ -24,159 +15,33 @@ body {
     --color-scrollbar-fg: var(--color-light);
     --color-clock-border: var(--color-dark);
 
-    --font-size-button: 2em;
-    --font-size-row: 3em;
-    --font-size-clock: 2em;
-
-    --row-handle-width: 30px;
     --clock-handle-size: 40px;
     --clock-size: 150px;
     --clock-disc-size: 80px;
     --scrollbar-thickness: 12px;
-    --row-inner-height: calc(var(--clock-size) + var(--clock-handle-size) + 4px + var(--scrollbar-thickness));
-    --row-height: calc(var(--row-inner-height) + var(--font-size-row));
-    --clock-description-width: 300px;
     --clock-border-thickness: 4px;
-    --new-clock-button-diameter: 50px;
-}
-.main {
-    position: relative;
-    height: 100%;
+
     display: flex;
-    flex-direction: column;
-}
-input {
-    outline: none;
-    border: none;
-    background: none;
-    font-family: 'Kirsty';
-}
-input::placeholder {
-    color: var(--color-light);
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
-/* Scrollbar customization. */
-::-webkit-scrollbar-track {
-    border: 2px solid var(--color-scrollbar-bg);
-    background-color: var(--color-scrollbar-bg);
-}
-::-webkit-scrollbar {
-    width: var(--scrollbar-thickness);
-    height: var(--scrollbar-thickness);
-    background-color: var(--color-scrollbar-bg);
-}
-::-webkit-scrollbar-thumb {
-    border: 2px solid var(--color-scrollbar-bg);
-    border-radius: 10px;
-    background-color: var(--color-scrollbar-fg);
-}
-
-/* Menu. */
-.menu {
-    height: 50px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-.menu .button {
-    padding: 0 15px;
-    font-weight: bold;
-    cursor: pointer;
-}
-.menu .button .text {
-    margin-top: 8px;
-    font-size: var(--font-size-button);
-    color: var(--color-bright);
-}
-.menu .button:not(.help) .text::before {
-    content: "+ ";
-}
-.menu .button.new-row .text::before {
-    color: var(--color-light);
-}
-.menu .button.bad-clock .text::before {
-    color: var(--color-orange);
-}
-.menu .button.good-clock .text::before {
-    color: var(--color-blue);
-}
-.menu .help .text {
-    color: var(--color-light);
-}
-.menu .button:hover {
-    background: var(--color-mid);
-}
-
-/* Rows. */
-.rows {
-    flex-grow: 1;
-}
-.row {
-    height: var(--row-height);
-    display: flex;
-    margin-bottom: 25px;
-}
-.row > .handle {
-    height: 100%;
-    width: var(--row-handle-width);
-    margin-right: 10px;
-    border-right: calc(2 * var(--clock-border-thickness)) solid var(--color-mid);
-    box-sizing: border-box;
-    cursor: move;
-}
-.row .inner {
-    flex-grow: 1;
-    overflow-y: hidden;
-    overflow-x: auto;
-}
-.row .name {
-    font-size: var(--font-size-row);
-    color: var(--color-bright);
-}
-.row .clocks {
-    height: var(--row-inner-height);
-    box-sizing: border-box;
-    padding-right: var(--row-handle-width);
-    display: flex;
-}
-.row[minimized] {
-    height: calc(var(--row-height) - var(--row-inner-height));
-}
-.row[minimized] .clocks {
-    display: none;
-}
-
-/* Clocks. */
 .clock {
     --angle: calc(360deg / var(--n));
     display: flex;
     flex-direction: column;
-}
-.clock[good] {
-    --clock-color: var(--color-blue);
+    width: fit-content;
+
+    .description{
+        color: var(--clock-color);
+        display: flex;
+        justify-content: center;
+    }
 }
 .clock[bad] {
     --clock-color: var(--color-orange);
 }
-.clock .banner {
-    display: flex;
-}
-.clock .handle {
-    height: var(--clock-handle-size);
-    width: var(--clock-handle-size);
-    margin-right: 5px;
-    border-right: calc(2 * var(--clock-border-thickness)) solid var(--color-mid);
-    box-sizing: border-box;
-    cursor: move;
-}
-.handle:hover {
-    border-color: var(--color-light);
-}
-.clock .description {
-    width: var(--clock-description-width);
-    font-size: var(--font-size-clock);
-    color: var(--clock-color);
-}
+
 .clock .widget {
     position: relative;
     height: var(--clock-size);
@@ -198,9 +63,10 @@ input::placeholder {
     left: 50%;
     height: calc(50% + var(--o));
     width: calc(50% + var(--o));
-    background: var(--color-mid);
+    background: var(--color-light);
     transform-origin: bottom left;
     transform: rotate(calc(var(--i) * var(--angle))) skewY(calc(-90deg + var(--angle)));
+    cursor: pointer;
 }
 .clock .slice[filled] {
     background: var(--clock-color);
@@ -211,13 +77,6 @@ input::placeholder {
 }
 .clock .slice[filled][will-change] {
     background: var(--color-light);
-}
-.clock .slice:not([filled]):hover {
-    background: var(--clock-color);
-    filter: brightness(1.5);
-}
-.clock .slice[filled]:hover {
-    background: var(--color-bright);
 }
 .clock .disc {
     --offset: calc((var(--clock-size) - var(--clock-disc-size)) / 2);
@@ -247,95 +106,4 @@ input::placeholder {
     height: 100%;
     width: 100%;
     background: var(--color-clock-border);
-}
-
-.help-info {
-    --w: 0;
-    position: absolute;
-    top: 60px;
-    left: calc(50% - (0.5 * var(--w)));
-    font-family: sans-serif;
-    padding: 10px;
-    font-size: 1.5em;
-    border-radius: 5px;
-    background: var(--color-mid);
-    color: var(--color-bright);
-    z-index: 2;
-}
-.help-info .text {
-    pointer-events: none;
-}
-.help-info .text b {
-    color: var(--color-orange);
-}
-
-.spawner {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-[dragging] .spawner {
-    display: none;
-}
-.spawner .button {
-    --d: 80px;
-    height: var(--d);
-    width: var(--d);
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-}
-.spawner .icon {
-    --s: calc(2 * var(--clock-border-thickness));
-    --w: var(--new-clock-button-diameter);
-    --h: calc(0.5 * var(--w));
-    --border-color: var(--color-mid);
-    height: var(--h);
-    width: var(--w);
-    border-top-left-radius: var(--h);
-    border-top-right-radius: var(--h);
-    border: var(--s) solid var(--border-color);
-    border-bottom: 0;
-    box-sizing: border-box;
-}
-.spawner .button:hover .icon {
-    --border-color: var(--color);
-}
-.spawner .button.bad .icon {
-    --color: var(--color-orange);
-    margin-top: calc(var(--d) - var(--h));
-}
-.spawner .button.good .icon {
-    --color: var(--color-blue);
-    transform: scaleY(-1);
-}
-.spawner .bar {
-    position: relative;
-    width: 100%;
-    z-index: 1;
-    pointer-events: none;
-}
-.spawner .bar .paint {
-    position: absolute;
-    top: calc(-1 * var(--clock-border-thickness));
-    height: calc(2 * var(--clock-border-thickness));
-    width: 100%;
-    background: var(--color-dark);
-}
-.spawner .bar .strokes {
-    background: #f003;
-}
-.spawner .bar .stroke {
-    --h: 4px;
-    --w: 16px;
-    position: absolute;
-    top: calc(50% - (0.5 * var(--h)));
-    left: calc(50% - (0.5 * var(--w)));
-    height: var(--h);
-    width: var(--w);
-    background: var(--color-mid);
-}
-.spawner .bar .stroke.s2 {
-    transform-origin: center;
-    transform: rotate(90deg);
 }

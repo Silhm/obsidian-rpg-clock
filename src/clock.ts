@@ -1,104 +1,95 @@
-import { MarkdownRenderChild, Notice } from "obsidian";
-//import colorsea from 'colorsea';
-import RpgClock, { urlRegex } from "./main";
+import { MarkdownRenderChild } from "obsidian";
+import RpgClock from "./main";
 import { RpgClockSettings } from "./settings";
 
 export class Clock extends MarkdownRenderChild {
     plugin: RpgClock;
     settings: RpgClockSettings;
 	input: string;
-	colors: string[];
+	clocks: string[];
 
 	constructor(plugin: RpgClock, settings: RpgClockSettings, containerEl: HTMLElement, input: string) {
 	  super(containerEl);
       this.plugin = plugin;
       this.settings = settings;
 	  this.input = input;
-	  this.colors = [];
+	  this.clocks = [];
 	}
   
 	onload() {
-		// Check if link & contains dashes (coolor url)
-		this.input.match(urlRegex) && this.input.contains('-') ? 
-        this.colors = this.input.substring(this.input.lastIndexOf('/') + 1).split('-').map(i => '#' + i)
-		:
-        // Check if link (colorhunt)
-        this.input.match(urlRegex) ?
-        this.colors = this.input.substring(this.input.lastIndexOf('/') + 1).match(/.{1,6}/g)?.map(i => '#' + i) || ['Invalid Palette']
-        :
-        // Check for comma newline
-        this.input.contains(',\n') ?
-        this.colors = this.input.split(',\n')
-        :
-        // Check for just newline
-        this.input.contains('\n') ?
-        this.colors = this.input.split('\n')
-        :
-        // Just comma
-        this.input.contains(',') ?
-        this.colors = this.input.split(',')
-        :
-        // Check if hex color
-        this.input.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i) ?
-        this.colors[0] = this.input
-        :
-        // Not matching
-        this.colors[0] = 'Invalid Clock'
+        console.log("onload: clean");
+        this.containerEl.innerHTML = "";
 
-        // Add new palette to state
-        if(this.colors[0] !== 'Invalid Clock'){
-            this.plugin.clocks?.push(this);
-        }
-
-        this.createClock();
+        // multiple definitions
+        this.clocks = this.input.split("\n");
+        
+        this.clocks.forEach((clock)=>{
+            const [clockName,clockValue] = clock.split(":");
+            const [filled, total] = clockValue? clockValue.split("/"):clockName.split("/");
+            this.createClock(clockValue? clockName:"", parseInt(filled,10),parseInt(total,10));
+        });
 	}
 
     unload() {
         // Remove palette from state
-        if(this.colors[0] !== 'Invalid Clock'){
+        if(this.clocks[0] !== 'Invalid Clock'){
             this.plugin.clocks?.remove(this);
         }
     }
 
     public refresh(){
         this.containerEl.empty();
-        this.createClock()
+        console.log("refresh");
+        //this.createClock()
     }
     
-
-    public createClock(){
-        this.containerEl.innerHTML=`<div class="clock" bad="" n="6" style="--n: 6;">
-        <div class="widget">
-            <div class="core">
-                <div class="slice" i="0" filled style="--i: 0;"></div>
-                <div class="slice" i="1" filled style="--i: 1;"></div>
-                <div class="slice" i="2" filled style="--i: 2;"></div>
-                <div class="slice" i="3" filled style="--i: 3;"></div>
-                <div class="slice" i="4" style="--i: 4;"></div>
-                <div class="slice" i="5" style="--i: 5;"></div>
-                
-                <div class="bar" i="0" style="--i: 0;">
-                    <div class="paint"></div>
-                </div>
-                <div class="bar" i="1" style="--i: 1;">
-                    <div class="paint"></div>
-                </div>
-                <div class="bar" i="2" style="--i: 2;">
-                    <div class="paint"></div>
-                </div>
-                <div class="bar" i="3" style="--i: 3;">
-                    <div class="paint"></div>
-                </div>
-                <div class="bar" i="4" style="--i: 4;">
-                    <div class="paint"></div>
+    /**
+     * Add a new clock to html element
+     * @param clockName 
+     * @param filled 
+     * @param totalCount 
+     */
+    public createClock(clockName:string, filled:number,totalCount:number){
+        console.log("Create clock: ", clockName , `${filled}/${totalCount}`);
+        this.containerEl.innerHTML+=`<div class="clock" bad="" n="${totalCount}" style="--n: ${totalCount};">
+        <div class="description">${clockName}</div>
+            <div class="widget">
+                <div class="core">
+                    ${this._slices(totalCount, filled)}
+                    ${this._bars(totalCount)}
                 </div>
             </div>
-            <!--div class="disc"></-div-->
-        </div>
         </div>`
     }
 
 
+    /**
+     * Generate slices
+     * @param count 
+     * @param filled 
+     * @returns 
+     */
+    private _slices(count:number,filled:number){
+        return new Array(count)
+            .fill(0)
+            .reduce((a,_,i) => [...a, `<div class="slice" i="${i}" ${filled<=i?"":"filled"} style="--i: ${i};"></div>`],[])
+            .join("\n");
+    }
+
+    /**
+     * Generate Bars
+     * @param count 
+     * @returns 
+     */
+    private _bars(count:number){
+        return new Array(count)
+            .fill(0)
+            //.reduce((a,_,i) => [...a, `<div class="slice" i="${i}" ${filled<=i?"":"filled"} style="--i: ${i};"></div>`],[])
+            .reduce((a,_,i) => [...a, ` <div class="bar" i="${i}" style="--i: ${i};">
+                                            <div class="paint"></div>
+                                        </div>`],[])
+            .join("\n");
+    }
 
     /*
     public createClock(){

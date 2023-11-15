@@ -1,5 +1,4 @@
 import { Editor, MarkdownPostProcessorContext, Notice, Plugin } from 'obsidian'
-//import { CommandInput } from 'src/commandInput';
 import { Clock } from 'src/clock';
 import { RpgClockSettings, DefaultSettings, SettingsTab } from 'src/settings';
 
