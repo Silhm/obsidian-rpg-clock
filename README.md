@@ -2,6 +2,8 @@
 
 Use clocks for your RPG (like Blades in The Dark) in Obsidian.md
 
+![Plugin example](docimages/example.png)
+
 ## How to use
 
 Add markdown 
@@ -24,6 +26,8 @@ Items found:3/4
 - settings might be overrided by markdown notation
 
 - use commands to add a new clock without writing markdown
+
+
 
 ## WIP
 
