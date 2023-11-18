@@ -1,6 +1,6 @@
 import { MarkdownRenderChild } from "obsidian";
 import RpgClock from "./main";
-import { RpgClockSettings } from "./settings";
+import { Color, RpgClockSettings } from "./settings";
 
 export class Clock extends MarkdownRenderChild {
     plugin: RpgClock;
@@ -24,9 +24,9 @@ export class Clock extends MarkdownRenderChild {
         this.clocks = this.input.split("\n");
         
         this.clocks.forEach((clock)=>{
-            const [clockName,clockValue] = clock.split(":");
+            const [clockName,clockValue,clockColor] = clock.split(":");
             const [filled, total] = clockValue? clockValue.split("/"):clockName.split("/");
-            this.createClock(clockValue? clockName:"", parseInt(filled,10),parseInt(total,10));
+            this.createClock(clockValue? clockName:"", parseInt(filled,10),parseInt(total,10),clockColor as Color);
         });
 	}
 
@@ -49,9 +49,13 @@ export class Clock extends MarkdownRenderChild {
      * @param filled 
      * @param totalCount 
      */
-    public createClock(clockName:string, filled:number,totalCount:number){
+    public createClock(clockName:string, filled:number,totalCount:number,color:Color){
+        let {clockColor} = this.settings;
+        if(color){
+            clockColor=color;
+        }
         console.log("Create clock: ", clockName , `${filled}/${totalCount}`);
-        this.containerEl.innerHTML+=`<div class="clock" bad="" n="${totalCount}" style="--n: ${totalCount};">
+        this.containerEl.innerHTML+=`<div class="clock" n="${totalCount}" style="--n: ${totalCount}; --clock-color:${clockColor}">
         <div class="description">${clockName}</div>
             <div class="widget">
                 <div class="core">

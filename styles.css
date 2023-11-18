@@ -6,7 +6,8 @@ If your plugin does not need CSS, delete this file.
 */
 
 .block-language-clock {
-    --color-orange: #ffa057;
+    --clock-color:var(--color-red);
+    --color-red: #ff5757;
     --color-dark: #020308;
     --color-mid: #101116;
     --color-light: #44454a;
@@ -39,7 +40,7 @@ If your plugin does not need CSS, delete this file.
     }
 }
 .clock[bad] {
-    --clock-color: var(--color-orange);
+    --clock-color: var(--color-red);
 }
 
 .clock .widget {

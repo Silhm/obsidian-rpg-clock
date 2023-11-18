@@ -5,7 +5,7 @@ type RGB = `rgb(${number}, ${number}, ${number})`;
 type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
 type HEX = `#${string}`;
 
-type Color = RGB | RGBA | HEX;
+export type Color = RGB | RGBA | HEX;
 
 export interface RpgClockSettings {
     clockSize: number;
@@ -14,7 +14,7 @@ export interface RpgClockSettings {
 
 export const DefaultSettings: RpgClockSettings = {
     clockSize: 150,
-    clockColor: '#0f96ff',
+    clockColor: '#ff5757',
 }
 
 export class SettingsTab extends PluginSettingTab {
@@ -46,10 +46,8 @@ export class SettingsTab extends PluginSettingTab {
         new Setting(containerEl)
             .setName('Clock Color')
             .setDesc('Which color should be the clock')
-            .addDropdown((dropdown) => {
-                dropdown
-                    // Inverted to match user expectations
-                    .addOptions({'row': 'column', 'column': 'row'})
+            .addColorPicker((colorPicker) => {
+                colorPicker
                     .setValue(settings.clockColor)
                     .onChange(async (value) => {
                         settings.clockColor = value as Color;
