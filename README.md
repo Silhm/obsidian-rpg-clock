@@ -18,12 +18,15 @@ Items found:3/4
 \`\`\`
 
 
-## WIP
-
 - use plugin settings
   - colors
   - aspect / size
-- settings might be overrided by markdown notation (TODO: find the best way to do it)
+- settings might be overrided by markdown notation
+
+- use commands to add a new clock without writing markdown
+
+## WIP
+
 
 - use mouse to interact with clocks:
   - click in an empty slice to fill up to it
@@ -31,7 +34,6 @@ Items found:3/4
   - shift click on the clock to add more total slices
   - shift right click on the clock to remove total slices
 
-- use commands to add a new clock without writing markdown
 
 
 > - Thanks to [obsidian-sample-plugin](https://github.com/obsidianmd/obsidian-sample-plugin) for providing the base template

@@ -40,7 +40,6 @@ export class Clock extends MarkdownRenderChild {
     public refresh(){
         this.containerEl.empty();
         console.log("refresh");
-        //this.createClock()
     }
     
     /**
@@ -65,7 +64,6 @@ export class Clock extends MarkdownRenderChild {
             </div>
         </div>`
     }
-
 
     /**
      * Generate slices
@@ -95,39 +93,4 @@ export class Clock extends MarkdownRenderChild {
             .join("\n");
     }
 
-    /*
-    public createClock(){
-        console.log("nrsat");
-        this.containerEl.addClass('palette')
-        //this.containerEl.toggleClass('paletteColumn', this.settings.paletteDirection === 'column');
-        // set --palette-height css variable
-        this.containerEl.style.setProperty('--clock-size', this.settings.clockSize.toString() + 'px')
-		for(const color of this.colors){
-            const csColor = color;//colorsea(color);
-
-			let child = this.containerEl.createEl('div');
-            // set --palette-background-color css variable
-            child.style.setProperty('--palette-background-color', color);
-            // set --palette-column-flex-basis css variable
-            child.style.setProperty('--palette-column-flex-basis', (this.settings.clockSize / this.colors.length / 2).toString() + 'px');
-
-            const invalidPalette =  this.colors[0] === "Invalid Palette"
-            
-            let childText = child.createEl('span', { text: color.toUpperCase() });
-            childText.toggleClass('invalid', invalidPalette);
-            // set --palette-color css variable
-            childText.style.setProperty(
-                '--palette-color', 
-                'blue'
-                //(csColor.rgb()[0]*0.299 + csColor.rgb()[1]*0.587 + csColor.rgb()[2]*0.114) > 186 ? '#000000' : '#ffffff'
-            )
-
-            child.onClickEvent((e) => {
-                if(invalidPalette) return;
-                new Notice(`Copied ${color}`);
-                navigator.clipboard.writeText(color)
-            });
-		}
-    }
-    */
 }
